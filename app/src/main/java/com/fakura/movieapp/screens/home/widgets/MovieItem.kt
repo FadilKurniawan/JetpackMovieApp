@@ -29,6 +29,11 @@ import com.fakura.movieapp.model.Movie
 import com.fakura.movieapp.model.getMovies
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
@@ -44,7 +49,7 @@ fun MovieRow(movie: Movie = getMovies()[0], onItemClick:(String)-> Unit = {}){
             onItemClick(movie.id)
         },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-        elevation = 6.dp 
+        elevation = 6.dp
     ){
         Row(verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start){
@@ -72,8 +77,19 @@ fun MovieRow(movie: Movie = getMovies()[0], onItemClick:(String)-> Unit = {}){
 
                 AnimatedVisibility(visible = expanded){
                     Column {
-                        Text(text = "Hello there")
-
+                        Text(buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = Color.DarkGray, fontSize = 13.sp)){
+                                append("Plot: ")
+                            }
+                            withStyle(style = SpanStyle(color = Color.DarkGray, fontSize = 13.sp,fontWeight = FontWeight.Light)){
+                                append(movie.plot)
+                            }
+                        }, modifier = Modifier.padding(6.dp))
+                        Divider()
+                        Text(text = "Actors: ${movie.actors}",
+                            style = MaterialTheme.typography.caption)
+                        Text(text = "Rating: ${movie.rating}",
+                            style = MaterialTheme.typography.caption)
                     }
                 }
                 Icon(
